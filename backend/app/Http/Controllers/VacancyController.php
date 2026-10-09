@@ -39,6 +39,19 @@ class VacancyController extends Controller
     }
 
     /**
+     * List the distinct locations used by vacancies, sorted alphabetically.
+     */
+    public function locations(): JsonResponse
+    {
+        $locations = Vacancy::query()
+            ->distinct()
+            ->orderBy('location')
+            ->pluck('location');
+
+        return response()->json($locations);
+    }
+
+    /**
      * Create a vacancy owned by the authenticated user.
      */
     public function store(StoreVacancyRequest $request): JsonResponse

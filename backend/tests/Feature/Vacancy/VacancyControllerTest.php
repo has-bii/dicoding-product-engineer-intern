@@ -184,6 +184,24 @@ class VacancyControllerTest extends TestCase
             ->assertJsonPath('data.0.id', $vacancy->id);
     }
 
+    public function test_locations_lists_distinct_locations_alphabetically(): void
+    {
+        Vacancy::factory()->create(['location' => 'Jakarta']);
+        Vacancy::factory()->create(['location' => 'Bandung']);
+        Vacancy::factory()->create(['location' => 'Jakarta']);
+
+        $this->getJson('/api/vacancy/locations')
+            ->assertOk()
+            ->assertExactJson(['Bandung', 'Jakarta']);
+    }
+
+    public function test_locations_returns_empty_list_without_vacancies(): void
+    {
+        $this->getJson('/api/vacancy/locations')
+            ->assertOk()
+            ->assertExactJson([]);
+    }
+
     public function test_show_returns_vacancy_detail(): void
     {
         $vacancy = Vacancy::factory()->create();
