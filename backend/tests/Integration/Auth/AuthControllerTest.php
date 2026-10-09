@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Integration\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,7 +26,7 @@ class AuthControllerTest extends TestCase
         $this->assertCount(1, $user->tokens);
     }
 
-    public function test_login_rejects_wrong_password(): void
+    public function test_login_rejects_wrong_credentials_without_issuing_token(): void
     {
         $user = User::factory()->create();
 
@@ -34,9 +34,16 @@ class AuthControllerTest extends TestCase
             'email' => $user->email,
             'password' => 'wrong-password',
         ])->assertUnprocessable()->assertJsonValidationErrors('email');
+
+        $this->postJson('/api/auth/login', [
+            'email' => 'unknown@example.com',
+            'password' => 'password',
+        ])->assertUnprocessable()->assertJsonValidationErrors('email');
+
+        $this->assertCount(0, $user->tokens);
     }
 
-    public function test_login_requires_email_and_password(): void
+    public function test_login_rejects_invalid_payload(): void
     {
         $this->postJson('/api/auth/login')
             ->assertUnprocessable()
