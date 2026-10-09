@@ -33,12 +33,12 @@ class AuthControllerTest extends TestCase
         $this->postJson('/api/auth/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
-        ])->assertUnprocessable()->assertJsonValidationErrors('email');
+        ])->assertUnprocessable()->assertExactJson(['message' => 'Invalid email or password.']);
 
         $this->postJson('/api/auth/login', [
             'email' => 'unknown@example.com',
             'password' => 'password',
-        ])->assertUnprocessable()->assertJsonValidationErrors('email');
+        ])->assertUnprocessable()->assertExactJson(['message' => 'Invalid email or password.']);
 
         $this->assertCount(0, $user->tokens);
     }
