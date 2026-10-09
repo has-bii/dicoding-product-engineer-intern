@@ -13,6 +13,7 @@ class VacancyController extends Controller
 {
     /**
      * List vacancies with summary fields, newest first, optionally filtered by title.
+     * Cursor paginated, 10 per page.
      */
     public function index(IndexVacancyRequest $request): JsonResponse
     {
@@ -30,7 +31,9 @@ class VacancyController extends Controller
             ])
             ->when($title, fn ($query) => $query->whereLike('title', "%{$title}%"))
             ->latest('created_at')
-            ->get();
+            ->latest('id')
+            ->cursorPaginate(10)
+            ->withQueryString();
 
         return response()->json($vacancies);
     }
