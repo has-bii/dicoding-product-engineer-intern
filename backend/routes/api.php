@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\VacancyController;
+use App\Http\Controllers\Vacancy\VacancyController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
