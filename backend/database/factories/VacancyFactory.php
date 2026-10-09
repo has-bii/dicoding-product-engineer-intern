@@ -25,7 +25,6 @@ class VacancyFactory extends Factory
         return [
             'user_id' => User::factory(),
             'title' => fake()->jobTitle(),
-            'position' => fake()->jobTitle(),
             'job_type' => fake()->randomElement(JobType::cases()),
             'candidates_needed' => fake()->numberBetween(1, 5),
             'active_until' => now()->addMonth(),

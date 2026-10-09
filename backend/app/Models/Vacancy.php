@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'title',
-    'position',
     'job_type',
     'candidates_needed',
     'active_until',

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->string('position')->index();
             $table->string('job_type', 20)->index();
             $table->unsignedSmallInteger('candidates_needed');
             $table->date('active_until')->index();

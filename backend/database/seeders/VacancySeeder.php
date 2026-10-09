@@ -22,7 +22,6 @@ class VacancySeeder extends Seeder
         $admin->vacancies()->updateOrCreate(
             ['title' => 'Product Engineer'],
             [
-                'position' => 'Product Engineer',
                 'job_type' => JobType::FullTime,
                 'candidates_needed' => 1,
                 'active_until' => now()->addMonth(),

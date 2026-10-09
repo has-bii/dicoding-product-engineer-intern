@@ -23,7 +23,6 @@ class VacancyControllerTest extends TestCase
             ->assertJsonStructure([[
                 'id',
                 'title',
-                'position',
                 'job_type',
                 'location',
                 'active_until',
