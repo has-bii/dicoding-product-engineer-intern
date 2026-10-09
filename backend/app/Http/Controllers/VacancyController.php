@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Vacancy\IndexVacancyRequest;
+use App\Http\Requests\Vacancy\StoreVacancyRequest;
+use App\Http\Requests\Vacancy\UpdateVacancyRequest;
 use App\Models\Vacancy;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class VacancyController extends Controller
 {
@@ -33,10 +36,40 @@ class VacancyController extends Controller
     }
 
     /**
+     * Create a vacancy owned by the authenticated user.
+     */
+    public function store(StoreVacancyRequest $request): JsonResponse
+    {
+        $vacancy = $request->user()->vacancies()->create($request->validated());
+
+        return response()->json($vacancy, 201);
+    }
+
+    /**
      * Return the full detail of a vacancy.
      */
     public function show(Vacancy $vacancy): JsonResponse
     {
         return response()->json($vacancy);
+    }
+
+    /**
+     * Replace the editable fields of a vacancy.
+     */
+    public function update(UpdateVacancyRequest $request, Vacancy $vacancy): JsonResponse
+    {
+        $vacancy->update($request->validated());
+
+        return response()->json($vacancy);
+    }
+
+    /**
+     * Delete a vacancy.
+     */
+    public function destroy(Vacancy $vacancy): Response
+    {
+        $vacancy->delete();
+
+        return response()->noContent();
     }
 }

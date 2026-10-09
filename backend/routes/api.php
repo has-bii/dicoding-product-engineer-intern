@@ -12,4 +12,10 @@ Route::prefix('auth')->group(function () {
 Route::prefix('vacancy')->group(function () {
     Route::get('/', [VacancyController::class, 'index']);
     Route::get('/{vacancy}', [VacancyController::class, 'show']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/', [VacancyController::class, 'store']);
+        Route::put('/{vacancy}', [VacancyController::class, 'update']);
+        Route::delete('/{vacancy}', [VacancyController::class, 'destroy']);
+    });
 });
