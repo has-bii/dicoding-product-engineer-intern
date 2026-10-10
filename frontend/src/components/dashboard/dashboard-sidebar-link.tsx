@@ -13,7 +13,8 @@ type DashboardSidebarLinkProps = {
 
 export function DashboardSidebarLink({ label, href, icon }: DashboardSidebarLinkProps) {
 	const pathname = usePathname()
-	const isActive = href === pathname
+	// Nested pages such as /dashboard/vacancy/create still belong to their menu item
+	const isActive = pathname === href || pathname.startsWith(`${href}/`)
 
 	return (
 		<Link

@@ -1,6 +1,7 @@
 import { PlusIcon } from "lucide-react"
+import Link from "next/link"
 import DashboardPageHeader from "@/components/dashboard/dashboard-page-header"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import MyVacancyContent from "@/features/vacancy/components/dashboard/my-vacancy-content"
 
 export default function MyVacancyList() {
@@ -9,10 +10,10 @@ export default function MyVacancyList() {
 			<DashboardPageHeader
 				title="Lowongan Saya"
 				action={
-					<Button>
+					<Link href="/dashboard/vacancy/create" className={buttonVariants()}>
 						<PlusIcon />
 						Buat lowongan
-					</Button>
+					</Link>
 				}
 			/>
 

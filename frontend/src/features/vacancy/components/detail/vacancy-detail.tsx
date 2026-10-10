@@ -6,19 +6,11 @@ import {
 	COMPANY_SECTOR,
 	COMPANY_SIZE,
 	COMPANY_URL,
+	descriptionClassName,
 	experienceLabels,
 	jobTypeLabels,
 } from "@/features/vacancy/constants"
 import type { VacancyDetail as VacancyDetailData } from "@/features/vacancy/types"
-
-// The description is HTML authored by admins (h2, p, ul, a); no typography plugin, so style it here
-const descriptionClassName = [
-	"flex flex-col text-base text-[#18181B] leading-[22px] tracking-[-0.011em]",
-	"[&_h2]:mb-2 [&_h2]:font-semibold [&_h2]:text-xl [&_h2]:leading-7 [&_h2]:tracking-[-0.017em] [&_h2:not(:first-child)]:mt-8",
-	"[&_p+p]:mt-[22px] [&_p+ul]:mt-[22px] [&_ul+p]:mt-[22px]",
-	"[&_ul]:list-disc [&_ul]:pl-6",
-	"[&_a]:underline [&_a]:underline-offset-2",
-].join(" ")
 
 type VacancyDetailHeaderProps = {
 	vacancy: VacancyDetailData

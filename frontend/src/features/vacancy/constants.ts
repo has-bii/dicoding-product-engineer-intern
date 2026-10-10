@@ -23,3 +23,13 @@ export const experienceLabels: Record<ExperienceLevel, string> = {
 	"6_to_10": "6-10 tahun",
 	more_than_10: "Lebih dari 10 tahun",
 }
+
+// The description is HTML authored in the rich text editor (h2, p, ul, ol, a, code); no typography plugin, so style it here
+export const descriptionClassName = [
+	"flex flex-col text-base text-[#18181B] leading-[22px] tracking-[-0.011em]",
+	"[&_h2]:mb-2 [&_h2]:font-semibold [&_h2]:text-xl [&_h2]:leading-7 [&_h2]:tracking-[-0.017em] [&_h2:not(:first-child)]:mt-8",
+	"[&_p+p]:mt-[22px] [&_p+ul]:mt-[22px] [&_ul+p]:mt-[22px]",
+	"[&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p+ol]:mt-[22px] [&_ol+p]:mt-[22px]",
+	"[&_code]:rounded-[4px] [&_code]:bg-[#F4F4F5] [&_code]:px-1 [&_code]:font-mono [&_code]:text-sm",
+	"[&_a]:underline [&_a]:underline-offset-2",
+].join(" ")
