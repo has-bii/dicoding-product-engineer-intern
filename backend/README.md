@@ -1,58 +1,171 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dicoding Jobs Platform API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The JSON API behind the Dicoding Jobs Platform. Anyone can browse job vacancies. An authenticated admin can create, update and delete them.
 
-## About Laravel
+It is a Laravel 13 app. Authentication uses Sanctum bearer tokens and data is stored in MySQL.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tech stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Concern        | Choice                                           |
+| -------------- | ------------------------------------------------ |
+| Language       | PHP 8.3+                                         |
+| Framework      | Laravel 13                                       |
+| Authentication | Laravel Sanctum (personal access tokens)         |
+| Database       | MySQL 9 (in Docker), SQLite in-memory for tests  |
+| Testing        | PHPUnit 12                                       |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Project structure
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+app/
+├── Enums/                 JobType, ExperienceLevel (string-backed, with labels)
+├── Http/
+│   ├── Controllers/
+│   │   ├── Auth/          AuthController: login, me
+│   │   └── Vacancy/       VacancyController: CRUD + locations
+│   └── Requests/          Form request validation per endpoint
+└── Models/                User, Vacancy (UUID primary keys)
+database/
+├── factories/             UserFactory, VacancyFactory
+├── migrations/
+└── seeders/               Admin user + a sample "Product Engineer" vacancy
+routes/api.php             All API routes, served under /api
+tests/
+├── Unit/                  Enums, model casts, form request rules
+└── Integration/           HTTP tests against the API endpoints
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Prerequisites
 
-## Contributing
+- PHP 8.3 or newer, with the `pdo_mysql` and `pdo_sqlite` extensions
+- [Composer](https://getcomposer.org/)
+- Docker with Docker Compose, for the MySQL database
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Setup
 
-## Code of Conduct
+All commands below run from the `backend/` directory unless stated otherwise.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Start MySQL.** The compose file lives in `docker/database` at the repository root:
 
-## Security Vulnerabilities
+   ```bash
+   docker compose -f ../docker/database/docker-compose.yaml up -d
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   This starts MySQL on port `3306` with database `app`, user `app` and password `app`, which match the defaults in `.env.example`. The data is persisted in `docker/database/data/`. To use different credentials or a different port, set `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD` or `MYSQL_PORT` before running the command, and update `.env` to match.
 
-## License
+2. **Install dependencies, create `.env`, generate the app key and run the migrations:**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   ```bash
+   composer setup
+   ```
+
+   This is shorthand for:
+
+   ```bash
+   composer install
+   cp .env.example .env
+   php artisan key:generate
+   php artisan migrate --force
+   ```
+
+3. **Seed the database** with the admin user and a sample vacancy:
+
+   ```bash
+   php artisan db:seed
+   ```
+
+   | Email                | Password      |
+   | -------------------- | ------------- |
+   | `admin@dicoding.com` | `dicoding123` |
+
+   To start over from an empty database, run `php artisan migrate:fresh --seed`.
+
+## Running the backend
+
+```bash
+composer dev
+```
+
+This starts the HTTP server, a queue worker and a log tail (`php artisan pail`) together. Run `php artisan dev:list` to see each process. The API is served at <http://localhost:8000/api>.
+
+To run only the HTTP server:
+
+```bash
+php artisan serve
+```
+
+Check that the app is up with `GET http://localhost:8000/up`.
+
+## API overview
+
+Every route is prefixed with `/api`. Routes marked 🔒 need an `Authorization: Bearer <token>` header. Get a token from the login endpoint.
+
+| Method   | Path                       | Description                                                       |
+| -------- | -------------------------- | ----------------------------------------------------------------- |
+| `POST`   | `/api/auth/login`          | Exchange `email` and `password` for a bearer token (6 requests/min) |
+| `GET`    | `/api/auth/me`             | 🔒 The authenticated user                                         |
+| `GET`    | `/api/vacancy`             | List vacancies, newest first. Cursor paginated, 10 per page. Optional `title` filter |
+| `GET`    | `/api/vacancy/locations`   | Distinct vacancy locations, sorted alphabetically                 |
+| `GET`    | `/api/vacancy/{id}`        | Full detail of one vacancy                                        |
+| `POST`   | `/api/vacancy`             | 🔒 Create a vacancy owned by the current user                     |
+| `PUT`    | `/api/vacancy/{id}`        | 🔒 Replace every editable field of a vacancy                      |
+| `DELETE` | `/api/vacancy/{id}`        | 🔒 Delete a vacancy                                               |
+
+Example login:
+
+```bash
+curl -X POST http://localhost:8000/api/auth/login \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@dicoding.com","password":"dicoding123"}'
+```
+
+### Vacancy fields
+
+`POST` and `PUT` take the same body:
+
+| Field               | Rules                                                                   |
+| ------------------- | ----------------------------------------------------------------------- |
+| `title`             | required, string, max 255                                               |
+| `job_type`          | required, one of `full_time`, `part_time`, `contract`, `internship`     |
+| `candidates_needed` | required, integer, 1 to 100                                             |
+| `active_until`      | required, date, today or later                                          |
+| `location`          | required, string, max 255                                               |
+| `is_remote`         | required, boolean                                                       |
+| `description`       | required, string (HTML)                                                 |
+| `salary_min`        | required, integer, at least 0                                           |
+| `salary_max`        | optional, integer, greater than or equal to `salary_min`                |
+| `show_salary`       | required, boolean                                                       |
+| `min_experience`    | required, one of `less_than_1`, `1_to_3`, `4_to_5`, `6_to_10`, `more_than_10` |
+
+The `title` filter on `GET /api/vacancy` is optional. When given, it must be at least 3 characters and contain only letters and spaces.
+
+A validation failure returns `422` with Laravel's standard `message` and `errors` body. Any error under `/api` is rendered as JSON.
+
+## Running the tests
+
+Tests run against an in-memory SQLite database configured in `phpunit.xml`, so MySQL does not need to be running.
+
+```bash
+composer test
+```
+
+This clears the cached config, then runs `php artisan test`. Clearing the config first matters: if the config is cached, the tests could pick up your `.env` database settings.
+
+Run a single suite:
+
+```bash
+php artisan test --testsuite=Unit
+php artisan test --testsuite=Integration
+```
+
+Filter by test class or method name:
+
+```bash
+php artisan test --filter=ManageVacancyTest
+```
+
+| Suite         | Covers                                                                   |
+| ------------- | ------------------------------------------------------------------------ |
+| `Unit`        | Enum labels, model casts, form request validation rules                  |
+| `Integration` | Auth endpoints and vacancy list, detail and management endpoints over HTTP |
