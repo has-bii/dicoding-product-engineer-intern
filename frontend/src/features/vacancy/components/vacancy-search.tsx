@@ -1,9 +1,9 @@
 "use client"
 
-import { SearchIcon } from "lucide-react"
+import { SearchIcon, XIcon } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group"
 import { useDebounce } from "@/hooks/use-debounce"
 
 export const VACANCY_SEARCH_PARAM = "title"
@@ -34,13 +34,20 @@ export default function VacancySearch() {
 				<SearchIcon className="size-5" />
 			</InputGroupAddon>
 			<InputGroupInput
-				type="search"
+				type="text"
 				aria-label="Cari lowongan"
 				placeholder="Pekerjaan apa yang sedang kamu cari?"
 				className="placeholder:text-[#52525B] placeholder:text-sm"
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
 			/>
+			{value && (
+				<InputGroupAddon align="inline-end" className="pr-3 text-[#52525B]">
+					<InputGroupButton size="icon-xs" aria-label="Hapus pencarian" onClick={() => setValue("")}>
+						<XIcon className="size-4" />
+					</InputGroupButton>
+				</InputGroupAddon>
+			)}
 		</InputGroup>
 	)
 }
