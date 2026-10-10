@@ -1,7 +1,7 @@
 export default function Footer() {
 	return (
 		<footer className="mt-auto w-full border-t px-8">
-			<div className="mx-auto flex max-w-6xl flex-col gap-8 pt-16 pb-24">
+			<div className="mx-auto flex max-w-6xl flex-col gap-8 py-16">
 				<img src="/logo-medium.png" alt="Dicoding Logo Medium" className="h-auto w-34" />
 
 				<p className="text-[#71717A] text-base lg:text-lg">
