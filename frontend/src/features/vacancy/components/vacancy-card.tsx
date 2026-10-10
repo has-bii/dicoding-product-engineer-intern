@@ -1,25 +1,13 @@
 import { BriefcaseBusinessIcon, Building2Icon, MapPinIcon } from "lucide-react"
+import Link from "next/link"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
-import type { ExperienceLevel, JobType, Vacancy } from "@/features/vacancy/types"
-
-// The backend has no company field; every vacancy belongs to Dicoding
-const COMPANY_NAME = "Dicoding Indonesia"
-const COMPANY_LOGO_URL = "/images/company-logo-dicoding.png"
-
-const jobTypeLabels: Record<JobType, string> = {
-	full_time: "Full-Time",
-	part_time: "Part-Time",
-	contract: "Kontrak",
-	internship: "Intern",
-}
-
-const experienceLabels: Record<ExperienceLevel, string> = {
-	less_than_1: "Kurang dari 1 tahun",
-	"1_to_3": "1-3 tahun",
-	"4_to_5": "4-5 tahun",
-	"6_to_10": "6-10 tahun",
-	more_than_10: "Lebih dari 10 tahun",
-}
+import {
+	COMPANY_LOGO_URL,
+	COMPANY_NAME,
+	experienceLabels,
+	jobTypeLabels,
+} from "@/features/vacancy/constants"
+import type { Vacancy } from "@/features/vacancy/types"
 
 const dateFormatter = new Intl.DateTimeFormat("id-ID", {
 	day: "numeric",
@@ -33,7 +21,7 @@ type VacancyCardProps = {
 
 export default function VacancyCard({ vacancy }: VacancyCardProps) {
 	return (
-		<Card className="flex-row gap-4 rounded-[4px] p-4! text-[#18181B] text-xs leading-[17px] shadow-none ring-[#E4E4E7]">
+		<Card className="relative flex-row gap-4 rounded-[4px] p-4! text-[#18181B] text-xs leading-[17px] shadow-none ring-[#E4E4E7] transition-colors hover:bg-[#FAFAFA]">
 			<img
 				src={COMPANY_LOGO_URL}
 				alt={`Logo ${COMPANY_NAME}`}
@@ -43,7 +31,10 @@ export default function VacancyCard({ vacancy }: VacancyCardProps) {
 			<CardContent className="flex flex-1 flex-col justify-between gap-4 px-0 md:flex-row md:gap-2">
 				<div className="flex flex-col gap-4">
 					<CardTitle className="font-sans text-base normal-case leading-[22px] tracking-normal">
-						{vacancy.title}
+						{/* Stretched link makes the whole card clickable */}
+						<Link href={`/vacancy/${vacancy.id}`} className="after:absolute after:inset-0">
+							{vacancy.title}
+						</Link>
 					</CardTitle>
 
 					<div className="flex flex-col gap-2">
