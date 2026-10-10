@@ -1,3 +1,11 @@
+import VacancyHeader from "@/features/vacancy/components/vacancy-header"
+import VacancyList from "@/features/vacancy/components/vacancy-list"
+
 export default function Page() {
-	return <div>Page</div>
+	return (
+		<>
+			<VacancyHeader />
+			<VacancyList />
+		</>
+	)
 }
