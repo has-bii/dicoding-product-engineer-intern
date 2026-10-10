@@ -4,7 +4,7 @@ import { QueryErrorResetBoundary, useSuspenseInfiniteQuery } from "@tanstack/rea
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorAlert from "@/components/error-alert"
 import { Button } from "@/components/ui/button"
-import { getVacanciesInfiniteQueryOptions } from "@/features/vacancy/api/get-vacancies"
+import { getMyVacanciesInfiniteQueryOptions } from "@/features/vacancy/api/get-my-vacancies"
 import MyVacancyCard from "@/features/vacancy/components/dashboard/my-vacancy-card"
 import { MyVacancyCardSkeleton } from "@/features/vacancy/components/dashboard/my-vacancy-card-skeleton"
 import { getErrorMessage } from "@/lib/utils"
@@ -32,7 +32,7 @@ export default function MyVacancyResults() {
 
 function MyVacancyItems() {
 	const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, isFetchNextPageError } =
-		useSuspenseInfiniteQuery(getVacanciesInfiniteQueryOptions())
+		useSuspenseInfiniteQuery(getMyVacanciesInfiniteQueryOptions())
 
 	const vacancies = data.pages.flatMap((page) => page.data)
 

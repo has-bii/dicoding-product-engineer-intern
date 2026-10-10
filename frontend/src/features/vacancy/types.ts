@@ -2,7 +2,7 @@ export type JobType = "full_time" | "part_time" | "contract" | "internship"
 
 export type ExperienceLevel = "less_than_1" | "1_to_3" | "4_to_5" | "6_to_10" | "more_than_10"
 
-// Summary fields returned by GET /vacancy
+// Summary fields returned by GET /vacancy and GET /vacancy/mine
 export type Vacancy = {
 	id: string
 	title: string
