@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { HeaderMenuLink } from "@/components/header-menu-link"
+import UserMenu from "@/features/auth/components/user-menu"
 
 const menuItems: Array<{ label: string; href: string }> = [
 	{
@@ -26,6 +27,9 @@ export default function Header() {
 						<HeaderMenuLink {...menu} />
 					</li>
 				))}
+				<li className="ml-auto">
+					<UserMenu />
+				</li>
 			</ul>
 		</header>
 	)
