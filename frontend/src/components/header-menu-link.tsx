@@ -7,10 +7,12 @@ import { usePathname } from "next/navigation"
 type HeaderMenuLinkProps = {
 	label: string
 	href: string
-	isActive?: boolean
 }
 
-export function HeaderMenuLink({ label, href, isActive = false }: HeaderMenuLinkProps) {
+export function HeaderMenuLink({ label, href }: HeaderMenuLinkProps) {
+	const pathname = usePathname()
+	const isActive = href === pathname
+
 	return (
 		<Link href={href} data-state={isActive} className="group relative">
 			{label}
@@ -24,11 +26,4 @@ export function HeaderMenuLink({ label, href, isActive = false }: HeaderMenuLink
 			/>
 		</Link>
 	)
-}
-
-// Reads the pathname, so it must sit inside Suspense on routes with unknown dynamic params
-export function ActiveHeaderMenuLink(props: Omit<HeaderMenuLinkProps, "isActive">) {
-	const pathname = usePathname()
-
-	return <HeaderMenuLink {...props} isActive={props.href === pathname} />
 }

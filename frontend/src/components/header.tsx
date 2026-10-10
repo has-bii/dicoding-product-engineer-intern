@@ -1,6 +1,5 @@
 import Link from "next/link"
-import { Suspense } from "react"
-import { ActiveHeaderMenuLink, HeaderMenuLink } from "@/components/header-menu-link"
+import { HeaderMenuLink } from "@/components/header-menu-link"
 
 const menuItems: Array<{ label: string; href: string }> = [
 	{
@@ -24,10 +23,7 @@ export default function Header() {
 				</li>
 				{menuItems.map((menu) => (
 					<li key={menu.label}>
-						{/* usePathname suspends while prerendering dynamic routes like /vacancy/[id] */}
-						<Suspense fallback={<HeaderMenuLink {...menu} />}>
-							<ActiveHeaderMenuLink {...menu} />
-						</Suspense>
+						<HeaderMenuLink {...menu} />
 					</li>
 				))}
 			</ul>
