@@ -86,7 +86,7 @@ class VacancyController extends Controller
     }
 
     /**
-     * Replace the editable fields of a vacancy.
+     * Replace the editable fields of a vacancy owned by the authenticated user.
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy): JsonResponse
     {
@@ -96,7 +96,7 @@ class VacancyController extends Controller
     }
 
     /**
-     * Delete a vacancy.
+     * Delete a vacancy owned by the authenticated user.
      */
     public function destroy(Vacancy $vacancy): Response
     {

@@ -117,8 +117,8 @@ Every route is prefixed with `/api`. Routes marked 🔒 need an `Authorization: 
 | `GET`    | `/api/vacancy/mine`        | 🔒 The current user's vacancies. Same fields, order, `title` filter and pagination as the list |
 | `GET`    | `/api/vacancy/{id}`        | Full detail of one vacancy                                        |
 | `POST`   | `/api/vacancy`             | 🔒 Create a vacancy owned by the current user                     |
-| `PUT`    | `/api/vacancy/{id}`        | 🔒 Replace every editable field of a vacancy                      |
-| `DELETE` | `/api/vacancy/{id}`        | 🔒 Delete a vacancy                                               |
+| `PUT`    | `/api/vacancy/{id}`        | 🔒 Replace every editable field of a vacancy you own             |
+| `DELETE` | `/api/vacancy/{id}`        | 🔒 Delete a vacancy you own                                       |
 
 Example login:
 

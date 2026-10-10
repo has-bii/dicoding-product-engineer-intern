@@ -18,7 +18,7 @@ Route::prefix('vacancy')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [VacancyController::class, 'store']);
-        Route::put('/{vacancy}', [VacancyController::class, 'update']);
-        Route::delete('/{vacancy}', [VacancyController::class, 'destroy']);
+        Route::put('/{vacancy}', [VacancyController::class, 'update'])->can('update', 'vacancy');
+        Route::delete('/{vacancy}', [VacancyController::class, 'destroy'])->can('delete', 'vacancy');
     });
 });

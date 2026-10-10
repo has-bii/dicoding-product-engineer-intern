@@ -76,7 +76,7 @@ class ManageVacancyTest extends TestCase
             'user_id' => User::factory()->create()->id,
         ]);
 
-        $this->actingAs(User::factory()->create())
+        $this->actingAs($vacancy->user)
             ->putJson("/api/vacancy/{$vacancy->id}", $payload)
             ->assertOk()
             ->assertJsonPath('id', $vacancy->id)
@@ -96,7 +96,7 @@ class ManageVacancyTest extends TestCase
     {
         $vacancy = Vacancy::factory()->create();
 
-        $this->actingAs(User::factory()->create())
+        $this->actingAs($vacancy->user)
             ->putJson("/api/vacancy/{$vacancy->id}", $this->validPayload(['title' => null]))
             ->assertUnprocessable()
             ->assertJsonValidationErrors('title');
@@ -112,6 +112,17 @@ class ManageVacancyTest extends TestCase
             ->assertUnauthorized();
     }
 
+    public function test_update_forbids_non_owner_without_saving(): void
+    {
+        $vacancy = Vacancy::factory()->create();
+
+        $this->actingAs(User::factory()->create())
+            ->putJson("/api/vacancy/{$vacancy->id}", $this->validPayload())
+            ->assertForbidden();
+
+        $this->assertSame($vacancy->title, $vacancy->refresh()->title);
+    }
+
     public function test_update_returns_not_found_for_unknown_vacancy(): void
     {
         $this->actingAs(User::factory()->create())
@@ -123,7 +134,7 @@ class ManageVacancyTest extends TestCase
     {
         $vacancy = Vacancy::factory()->create();
 
-        $this->actingAs(User::factory()->create())
+        $this->actingAs($vacancy->user)
             ->deleteJson("/api/vacancy/{$vacancy->id}")
             ->assertNoContent();
 
@@ -135,6 +146,17 @@ class ManageVacancyTest extends TestCase
         $vacancy = Vacancy::factory()->create();
 
         $this->deleteJson("/api/vacancy/{$vacancy->id}")->assertUnauthorized();
+
+        $this->assertModelExists($vacancy);
+    }
+
+    public function test_destroy_forbids_non_owner(): void
+    {
+        $vacancy = Vacancy::factory()->create();
+
+        $this->actingAs(User::factory()->create())
+            ->deleteJson("/api/vacancy/{$vacancy->id}")
+            ->assertForbidden();
 
         $this->assertModelExists($vacancy);
     }
