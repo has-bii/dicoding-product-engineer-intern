@@ -11,7 +11,7 @@ It is a Laravel 13 app. Authentication uses Sanctum bearer tokens and data is st
 | Language       | PHP 8.3+                                         |
 | Framework      | Laravel 13                                       |
 | Authentication | Laravel Sanctum (personal access tokens)         |
-| Database       | MySQL 9 (in Docker), SQLite in-memory for tests  |
+| Database       | MySQL 9 (in Docker), separate `test` database    |
 | Testing        | PHPUnit 12                                       |
 
 ## Project structure
@@ -37,7 +37,7 @@ tests/
 
 ## Prerequisites
 
-- PHP 8.3 or newer, with the `pdo_mysql` and `pdo_sqlite` extensions
+- PHP 8.3 or newer, with the `pdo_mysql` extension
 - [Composer](https://getcomposer.org/)
 - Docker with Docker Compose, for the MySQL database
 
@@ -51,7 +51,15 @@ All commands below run from the `backend/` directory unless stated otherwise.
    docker compose -f ../docker/database/docker-compose.yaml up -d
    ```
 
-   This starts MySQL on port `3306` with database `app`, user `app` and password `app`, which match the defaults in `.env.example`. The data is persisted in `docker/database/data/`. To use different credentials or a different port, set `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD` or `MYSQL_PORT` before running the command, and update `.env` to match.
+   This starts MySQL on port `3306` with user `app` and password `app`. On first start, `docker/database/init/init.sql` creates two databases: `dev` for development and `test` for the test suite. These match the defaults in `.env.example` and `phpunit.xml`. The data is persisted in `docker/database/data/`. To use a different password or port, set `MYSQL_PASSWORD` or `MYSQL_PORT` before running the command, and update `.env` to match. The user name is fixed to `app` because `init.sql` grants access to it by name.
+
+   MySQL only runs the init script when the data directory is empty. If you have a `data/` directory from before the `dev` and `test` databases existed, wipe it (this deletes all local data) and start again:
+
+   ```bash
+   docker compose -f ../docker/database/docker-compose.yaml down
+   rm -rf ../docker/database/data
+   docker compose -f ../docker/database/docker-compose.yaml up -d
+   ```
 
 2. **Install dependencies, create `.env`, generate the app key and run the migrations:**
 
@@ -144,7 +152,7 @@ A validation failure returns `422` with Laravel's standard `message` and `errors
 
 ## Running the tests
 
-Tests run against an in-memory SQLite database configured in `phpunit.xml`, so MySQL does not need to be running.
+Tests run against the `test` MySQL database, so MySQL must be running (see Setup). `phpunit.xml` forces `DB_CONNECTION=mysql` and `DB_DATABASE=test`, while host, port and credentials come from `.env`. The integration tests use `RefreshDatabase`, which drops and recreates every table in `test`, so the `dev` database is never touched.
 
 ```bash
 composer test
