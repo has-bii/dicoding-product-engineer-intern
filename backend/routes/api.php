@@ -13,6 +13,7 @@ Route::prefix('auth')->group(function () {
 Route::prefix('vacancy')->group(function () {
     Route::get('/', [VacancyController::class, 'index']);
     Route::get('/locations', [VacancyController::class, 'locations']);
+    Route::get('/mine', [VacancyController::class, 'mine'])->middleware('auth:sanctum');
     Route::get('/{vacancy}', [VacancyController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {

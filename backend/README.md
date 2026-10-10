@@ -114,6 +114,7 @@ Every route is prefixed with `/api`. Routes marked 🔒 need an `Authorization: 
 | `GET`    | `/api/auth/me`             | 🔒 The authenticated user                                         |
 | `GET`    | `/api/vacancy`             | List vacancies, newest first. Cursor paginated, 10 per page. Optional `title` filter |
 | `GET`    | `/api/vacancy/locations`   | Distinct vacancy locations, sorted alphabetically                 |
+| `GET`    | `/api/vacancy/mine`        | 🔒 The current user's vacancies. Same fields, order, `title` filter and pagination as the list |
 | `GET`    | `/api/vacancy/{id}`        | Full detail of one vacancy                                        |
 | `POST`   | `/api/vacancy`             | 🔒 Create a vacancy owned by the current user                     |
 | `PUT`    | `/api/vacancy/{id}`        | 🔒 Replace every editable field of a vacancy                      |

@@ -7,6 +7,8 @@ use App\Http\Requests\Vacancy\IndexVacancyRequest;
 use App\Http\Requests\Vacancy\StoreVacancyRequest;
 use App\Http\Requests\Vacancy\UpdateVacancyRequest;
 use App\Models\Vacancy;
+use Illuminate\Contracts\Pagination\CursorPaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -18,9 +20,24 @@ class VacancyController extends Controller
      */
     public function index(IndexVacancyRequest $request): JsonResponse
     {
-        $title = $request->validated('title');
+        return response()->json($this->listSummaries(Vacancy::query(), $request->validated('title')));
+    }
 
-        $vacancies = Vacancy::query()
+    /**
+     * List the authenticated user's vacancies, same shape, order, filter and pagination as index.
+     */
+    public function mine(IndexVacancyRequest $request): JsonResponse
+    {
+        return response()->json($this->listSummaries($request->user()->vacancies()->getQuery(), $request->validated('title')));
+    }
+
+    /**
+     * @param  Builder<Vacancy>  $query
+     * @return CursorPaginator<int, Vacancy>
+     */
+    private function listSummaries(Builder $query, ?string $title): CursorPaginator
+    {
+        return $query
             ->select([
                 'id',
                 'title',
@@ -35,8 +52,6 @@ class VacancyController extends Controller
             ->latest('id')
             ->cursorPaginate(10)
             ->withQueryString();
-
-        return response()->json($vacancies);
     }
 
     /**
