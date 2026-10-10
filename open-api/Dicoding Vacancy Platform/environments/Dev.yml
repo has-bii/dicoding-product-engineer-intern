@@ -2,7 +2,5 @@ name: Dev
 variables:
   - name: API_URL
     value: http://localhost:8000/api
-    description: ""
   - name: AUTH_TOKEN
     value: ""
-    description: ""
