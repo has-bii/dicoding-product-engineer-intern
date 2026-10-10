@@ -1,7 +1,6 @@
 "use client"
 
 import { QueryErrorResetBoundary, useSuspenseInfiniteQuery } from "@tanstack/react-query"
-import { isAxiosError } from "axios"
 import { useSearchParams } from "next/navigation"
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorAlert from "@/components/error-alert"
@@ -10,12 +9,7 @@ import { getVacanciesInfiniteQueryOptions } from "@/features/vacancy/api/get-vac
 import VacancyCard from "@/features/vacancy/components/vacancy-card"
 import { VacancyCardSkeleton } from "@/features/vacancy/components/vacancy-card-skeleton"
 import { VACANCY_SEARCH_PARAM } from "@/features/vacancy/components/vacancy-search"
-
-function getErrorMessage(error: unknown) {
-	if (isAxiosError(error)) return error.response?.data?.message ?? error.message
-	if (error instanceof Error) return error.message
-	return undefined
-}
+import { getErrorMessage } from "@/lib/utils"
 
 // Suspends into the Suspense boundary that next/dynamic (ssr: false) wraps around this module
 export default function VacancyListResults() {
