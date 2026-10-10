@@ -3,6 +3,7 @@
 import { useForm } from "@tanstack/react-form"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { CircleAlertIcon } from "lucide-react"
+import Link from "next/link"
 import { Alert, AlertTitle } from "@/components/ui/alert"
 import {
 	AlertDialog,
@@ -11,7 +12,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { getMeQueryOptions } from "@/features/auth/api/get-me"
@@ -120,9 +121,14 @@ export default function LoginDialog() {
 							}}
 						/>
 
-						<Button type="submit" disabled={loginMutation.isPending}>
-							{loginMutation.isPending ? "Memproses..." : "Masuk"}
-						</Button>
+						<div className="flex flex-col gap-2">
+							<Button type="submit" disabled={loginMutation.isPending}>
+								{loginMutation.isPending ? "Memproses..." : "Masuk"}
+							</Button>
+							<Link href="/" className={buttonVariants({ variant: "link", size: "sm" })}>
+								Kembali
+							</Link>
+						</div>
 					</FieldGroup>
 				</form>
 			</AlertDialogContent>
