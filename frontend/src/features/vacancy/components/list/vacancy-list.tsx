@@ -12,7 +12,6 @@ export default function VacancyList() {
 						<h2 className="font-semibold text-2xl text-[#18181B] leading-[34px]">
 							Daftar Pekerjaan Terbaru
 						</h2>
-						{/* useSearchParams needs a Suspense boundary under cacheComponents */}
 						<Suspense fallback={<Skeleton className="h-11 flex-1 lg:max-w-sm" />}>
 							<VacancySearch />
 						</Suspense>

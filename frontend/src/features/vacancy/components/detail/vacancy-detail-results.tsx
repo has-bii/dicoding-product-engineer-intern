@@ -9,7 +9,6 @@ import VacancyDetail from "@/features/vacancy/components/detail/vacancy-detail"
 import VacancyNotFound from "@/features/vacancy/components/detail/vacancy-not-found"
 import { getErrorMessage, isNotFoundError } from "@/lib/utils"
 
-// Suspends into the Suspense boundary that next/dynamic (ssr: false) wraps around this module
 export default function VacancyDetailResults() {
 	const { id } = useParams<{ id: string }>()
 

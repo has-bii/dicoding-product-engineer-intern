@@ -11,7 +11,6 @@ import { VacancyCardSkeleton } from "@/features/vacancy/components/list/vacancy-
 import { VACANCY_SEARCH_PARAM } from "@/features/vacancy/constants"
 import { getErrorMessage } from "@/lib/utils"
 
-// Suspends into the Suspense boundary that next/dynamic (ssr: false) wraps around this module
 export default function VacancyListResults() {
 	const searchParams = useSearchParams()
 	const title = searchParams.get(VACANCY_SEARCH_PARAM) ?? ""
