@@ -1,6 +1,7 @@
 import { ClockIcon, PencilIcon, Trash2Icon, UploadIcon } from "lucide-react"
+import Link from "next/link"
 import MetaItem from "@/components/meta-item"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { COMPANY_LOGO_URL, COMPANY_NAME } from "@/features/vacancy/constants"
 import type { Vacancy } from "@/features/vacancy/types"
@@ -43,10 +44,13 @@ export default function MyVacancyCard({ vacancy }: MyVacancyCardProps) {
 				</div>
 
 				<div className="flex gap-3">
-					<Button variant="secondary">
+					<Link
+						href={`/dashboard/vacancy/${vacancy.id}/edit`}
+						className={buttonVariants({ variant: "secondary" })}
+					>
 						<PencilIcon />
 						Edit
-					</Button>
+					</Link>
 					<Button variant="destructive">
 						<Trash2Icon />
 						Hapus

@@ -33,6 +33,7 @@ import {
 	type VacancyInput,
 	vacancySchema,
 } from "@/features/vacancy/schemas"
+import type { VacancyDetail } from "@/features/vacancy/types"
 import { getErrorMessage, getValidationErrors } from "@/lib/utils"
 
 const DESCRIPTION_TEMPLATE = [
@@ -55,6 +56,21 @@ export const emptyVacancyFormValues: VacancyFormValues = {
 	show_salary: false,
 	min_experience: "",
 }
+
+// Number fields hold raw text in the form, and the API serializes active_until as a full timestamp
+export const toVacancyFormValues = (vacancy: VacancyDetail): VacancyFormValues => ({
+	title: vacancy.title,
+	job_type: vacancy.job_type,
+	candidates_needed: String(vacancy.candidates_needed),
+	active_until: vacancy.active_until.slice(0, 10),
+	location: vacancy.location,
+	is_remote: vacancy.is_remote,
+	description: vacancy.description,
+	salary_min: String(vacancy.salary_min),
+	salary_max: vacancy.salary_max === null ? "" : String(vacancy.salary_max),
+	show_salary: vacancy.show_salary,
+	min_experience: vacancy.min_experience,
+})
 
 // Salary inputs show thousand separators but keep only digits in the form
 const formatDigits = (value: string) => (value ? Number(value).toLocaleString("id-ID") : "")
