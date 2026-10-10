@@ -18,6 +18,11 @@ const badgeVariants = cva(
         ghost:
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Job type variants, keyed by JobType so `variant={vacancy.job_type}` works
+        full_time: "rounded-full border-blue-400 bg-blue-50 text-blue-500",
+        part_time: "rounded-full border-emerald-400 bg-emerald-50 text-emerald-600",
+        contract: "rounded-full border-amber-400 bg-amber-50 text-amber-600",
+        internship: "rounded-full border-violet-400 bg-violet-50 text-violet-600",
       },
     },
     defaultVariants: {
