@@ -1,11 +1,11 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import VacancyDetailSkeleton from "@/features/vacancy/components/vacancy-detail-skeleton"
+import VacancyDetailSkeleton from "@/features/vacancy/components/detail/vacancy-detail-skeleton"
 
 // next/dynamic with ssr: false is only allowed inside a Client Component
 const VacancyDetailResults = dynamic(
-	() => import("@/features/vacancy/components/vacancy-detail-results"),
+	() => import("@/features/vacancy/components/detail/vacancy-detail-results"),
 	{
 		ssr: false,
 		loading: () => <VacancyDetailSkeleton />,

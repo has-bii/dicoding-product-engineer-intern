@@ -9,9 +9,8 @@ import {
 	InputGroupButton,
 	InputGroupInput,
 } from "@/components/ui/input-group"
+import { VACANCY_SEARCH_PARAM } from "@/features/vacancy/constants"
 import { useDebounce } from "@/hooks/use-debounce"
-
-export const VACANCY_SEARCH_PARAM = "title"
 
 export default function VacancySearch() {
 	const router = useRouter()

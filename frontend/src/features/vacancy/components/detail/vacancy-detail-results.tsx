@@ -5,8 +5,8 @@ import { useParams } from "next/navigation"
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorAlert from "@/components/error-alert"
 import { getVacancyQueryOptions } from "@/features/vacancy/api/get-vacancy"
-import VacancyDetail from "@/features/vacancy/components/vacancy-detail"
-import VacancyNotFound from "@/features/vacancy/components/vacancy-not-found"
+import VacancyDetail from "@/features/vacancy/components/detail/vacancy-detail"
+import VacancyNotFound from "@/features/vacancy/components/detail/vacancy-not-found"
 import { getErrorMessage, isNotFoundError } from "@/lib/utils"
 
 // Suspends into the Suspense boundary that next/dynamic (ssr: false) wraps around this module

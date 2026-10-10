@@ -1,7 +1,7 @@
 import { Suspense } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
-import VacancyListContent from "@/features/vacancy/components/vacancy-list-content"
-import VacancySearch from "@/features/vacancy/components/vacancy-search"
+import VacancyListContent from "@/features/vacancy/components/list/vacancy-list-content"
+import VacancySearch from "@/features/vacancy/components/list/vacancy-search"
 
 export default function VacancyList() {
 	return (

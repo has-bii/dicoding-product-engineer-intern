@@ -1,5 +1,5 @@
-import VacancyHeader from "@/features/vacancy/components/vacancy-header"
-import VacancyList from "@/features/vacancy/components/vacancy-list"
+import VacancyHeader from "@/features/vacancy/components/list/vacancy-header"
+import VacancyList from "@/features/vacancy/components/list/vacancy-list"
 
 export default function Page() {
 	return (

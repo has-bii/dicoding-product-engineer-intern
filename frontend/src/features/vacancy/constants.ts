@@ -1,5 +1,7 @@
 import type { ExperienceLevel, JobType } from "@/features/vacancy/types"
 
+export const VACANCY_SEARCH_PARAM = "title"
+
 // The backend has no company fields; every vacancy belongs to Dicoding
 export const COMPANY_NAME = "Dicoding Indonesia"
 export const COMPANY_LOGO_URL = "/images/company-logo-dicoding.png"

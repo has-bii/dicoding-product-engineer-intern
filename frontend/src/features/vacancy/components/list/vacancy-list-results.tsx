@@ -6,9 +6,9 @@ import { ErrorBoundary } from "react-error-boundary"
 import ErrorAlert from "@/components/error-alert"
 import { Button } from "@/components/ui/button"
 import { getVacanciesInfiniteQueryOptions } from "@/features/vacancy/api/get-vacancies"
-import VacancyCard from "@/features/vacancy/components/vacancy-card"
-import { VacancyCardSkeleton } from "@/features/vacancy/components/vacancy-card-skeleton"
-import { VACANCY_SEARCH_PARAM } from "@/features/vacancy/components/vacancy-search"
+import VacancyCard from "@/features/vacancy/components/list/vacancy-card"
+import { VacancyCardSkeleton } from "@/features/vacancy/components/list/vacancy-card-skeleton"
+import { VACANCY_SEARCH_PARAM } from "@/features/vacancy/constants"
 import { getErrorMessage } from "@/lib/utils"
 
 // Suspends into the Suspense boundary that next/dynamic (ssr: false) wraps around this module
