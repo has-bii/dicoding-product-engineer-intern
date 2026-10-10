@@ -66,4 +66,23 @@ class AuthControllerTest extends TestCase
     {
         $this->getJson('/api/auth/me')->assertUnauthorized();
     }
+
+    public function test_logout_revokes_current_token_only(): void
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('test')->plainTextToken;
+        $user->createToken('other');
+
+        $this->withToken($token)
+            ->postJson('/api/auth/logout')
+            ->assertNoContent();
+
+        $this->assertCount(1, $user->tokens()->get());
+        $this->assertSame('other', $user->tokens()->first()->name);
+    }
+
+    public function test_logout_requires_authentication(): void
+    {
+        $this->postJson('/api/auth/logout')->assertUnauthorized();
+    }
 }
