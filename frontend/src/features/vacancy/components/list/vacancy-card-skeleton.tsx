@@ -3,10 +3,10 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function VacancyCardSkeleton() {
 	return (
-		<Card aria-hidden className="flex-row gap-4 rounded-[4px] p-4! shadow-none ring-[#E4E4E7]">
+		<Card aria-hidden orientation="horizontal" className="rounded-[4px]">
 			<Skeleton className="size-16 shrink-0 rounded-[4px] md:size-24" />
 
-			<CardContent className="flex flex-1 flex-col justify-between gap-4 px-0 md:flex-row md:gap-2">
+			<CardContent className="flex flex-1 flex-col justify-between gap-4 md:flex-row md:gap-2">
 				<div className="flex flex-col gap-4">
 					<Skeleton className="h-[22px] w-56" />
 					<div className="flex flex-col gap-2">

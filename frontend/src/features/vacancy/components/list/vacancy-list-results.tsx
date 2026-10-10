@@ -83,7 +83,6 @@ function VacancyListItems({ title }: VacancyListItemsProps) {
 			{hasNextPage && !isFetchNextPageError && (
 				<Button
 					variant="outline"
-					size="lg"
 					className="self-center"
 					disabled={isFetchingNextPage}
 					onClick={() => fetchNextPage()}

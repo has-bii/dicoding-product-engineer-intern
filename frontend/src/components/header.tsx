@@ -14,7 +14,7 @@ const menuItems: Array<{ label: string; href: string }> = [
 
 export default function Header() {
 	return (
-		<header className="flex h-[70px] items-center border-[#E4E4E7] border-b bg-background px-8">
+		<header className="flex h-[70px] items-center border-b bg-background px-8">
 			<ul className="mx-auto flex w-full max-w-6xl items-center gap-8">
 				<li>
 					<Link href="/">

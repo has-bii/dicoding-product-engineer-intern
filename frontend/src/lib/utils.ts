@@ -11,3 +11,13 @@ export function getErrorMessage(error: unknown): string | undefined {
 export function isNotFoundError(error: unknown) {
 	return isAxiosError(error) && error.response?.status === 404
 }
+
+const dateFormatter = new Intl.DateTimeFormat("id-ID", {
+	day: "numeric",
+	month: "long",
+	year: "numeric",
+})
+
+export function formatDate(date: string) {
+	return dateFormatter.format(new Date(date))
+}

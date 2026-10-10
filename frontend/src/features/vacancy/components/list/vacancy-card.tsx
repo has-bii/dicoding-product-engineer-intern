@@ -8,12 +8,7 @@ import {
 	jobTypeLabels,
 } from "@/features/vacancy/constants"
 import type { Vacancy } from "@/features/vacancy/types"
-
-const dateFormatter = new Intl.DateTimeFormat("id-ID", {
-	day: "numeric",
-	month: "long",
-	year: "numeric",
-})
+import { formatDate } from "@/lib/utils"
 
 type VacancyCardProps = {
 	vacancy: Vacancy
@@ -21,14 +16,17 @@ type VacancyCardProps = {
 
 export default function VacancyCard({ vacancy }: VacancyCardProps) {
 	return (
-		<Card className="relative flex-row gap-4 rounded-[4px] p-4! text-[#18181B] text-xs leading-[17px] shadow-none ring-[#E4E4E7] transition-colors hover:bg-[#FAFAFA]">
+		<Card
+			orientation="horizontal"
+			className="relative rounded-[4px] text-[#18181B] text-xs leading-[17px] transition-colors hover:bg-secondary"
+		>
 			<img
 				src={COMPANY_LOGO_URL}
 				alt={`Logo ${COMPANY_NAME}`}
 				className="size-16 shrink-0 rounded-[4px] object-cover md:size-24"
 			/>
 
-			<CardContent className="flex flex-1 flex-col justify-between gap-4 px-0 md:flex-row md:gap-2">
+			<CardContent className="flex flex-1 flex-col justify-between gap-4 md:flex-row md:gap-2">
 				<div className="flex flex-col gap-4">
 					<CardTitle className="font-sans text-base normal-case leading-[22px] tracking-normal">
 						{/* Stretched link makes the whole card clickable */}
@@ -60,16 +58,11 @@ export default function VacancyCard({ vacancy }: VacancyCardProps) {
 
 				<div className="flex flex-col gap-2 text-[#52525B] md:items-end">
 					<p>
-						Dibuat pada{" "}
-						<time dateTime={vacancy.created_at}>
-							{dateFormatter.format(new Date(vacancy.created_at))}
-						</time>
+						Dibuat pada <time dateTime={vacancy.created_at}>{formatDate(vacancy.created_at)}</time>
 					</p>
 					<p>
 						Lamar sebelum{" "}
-						<time dateTime={vacancy.active_until}>
-							{dateFormatter.format(new Date(vacancy.active_until))}
-						</time>
+						<time dateTime={vacancy.active_until}>{formatDate(vacancy.active_until)}</time>
 					</p>
 				</div>
 			</CardContent>

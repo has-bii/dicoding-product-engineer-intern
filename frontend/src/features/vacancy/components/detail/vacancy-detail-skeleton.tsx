@@ -17,7 +17,7 @@ function DescriptionSectionSkeleton({ lines }: { lines: number }) {
 export default function VacancyDetailSkeleton() {
 	return (
 		<div aria-hidden>
-			<section className="border-[#E4E4E7] border-b px-8">
+			<section className="border-b px-8">
 				<div className="mx-auto flex max-w-6xl gap-4 py-8">
 					<Skeleton className="size-16 shrink-0 rounded-[4px] md:size-24" />
 					<div className="flex flex-col justify-center gap-2 pb-2">

@@ -26,12 +26,12 @@ type VacancyDetailHeaderProps = {
 
 function VacancyDetailHeader({ vacancy }: VacancyDetailHeaderProps) {
 	return (
-		<section className="border-[#E4E4E7] border-b px-8">
+		<section className="border-b px-8">
 			<div className="mx-auto flex max-w-6xl gap-4 py-8">
 				<img
 					src={COMPANY_LOGO_URL}
 					alt={`Logo ${COMPANY_NAME}`}
-					className="size-16 shrink-0 rounded-[4px] border border-[#E4E4E7] object-cover md:size-24"
+					className="size-16 shrink-0 rounded-[4px] border object-cover md:size-24"
 				/>
 
 				<div className="flex flex-col justify-center gap-2 pb-2">
