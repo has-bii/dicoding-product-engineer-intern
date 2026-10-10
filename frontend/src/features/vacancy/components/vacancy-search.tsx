@@ -3,7 +3,12 @@
 import { SearchIcon, XIcon } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group"
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupButton,
+	InputGroupInput,
+} from "@/components/ui/input-group"
 import { useDebounce } from "@/hooks/use-debounce"
 
 export const VACANCY_SEARCH_PARAM = "title"
@@ -43,7 +48,11 @@ export default function VacancySearch() {
 			/>
 			{value && (
 				<InputGroupAddon align="inline-end" className="pr-3 text-[#52525B]">
-					<InputGroupButton size="icon-xs" aria-label="Hapus pencarian" onClick={() => setValue("")}>
+					<InputGroupButton
+						size="icon-xs"
+						aria-label="Hapus pencarian"
+						onClick={() => setValue("")}
+					>
 						<XIcon className="size-4" />
 					</InputGroupButton>
 				</InputGroupAddon>
