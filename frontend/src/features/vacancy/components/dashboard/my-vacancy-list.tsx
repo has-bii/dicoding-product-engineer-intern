@@ -1,8 +1,7 @@
 import { PlusIcon } from "lucide-react"
 import DashboardPageHeader from "@/components/dashboard/dashboard-page-header"
 import { Button } from "@/components/ui/button"
-import MyVacancyCard from "@/features/vacancy/components/dashboard/my-vacancy-card"
-import { mockVacancies } from "@/features/vacancy/data/mock-vacancies"
+import MyVacancyContent from "@/features/vacancy/components/dashboard/my-vacancy-content"
 
 export default function MyVacancyList() {
 	return (
@@ -17,13 +16,7 @@ export default function MyVacancyList() {
 				}
 			/>
 
-			<ul className="flex flex-col gap-6">
-				{mockVacancies.map((vacancy) => (
-					<li key={vacancy.id}>
-						<MyVacancyCard vacancy={vacancy} />
-					</li>
-				))}
-			</ul>
+			<MyVacancyContent />
 		</section>
 	)
 }

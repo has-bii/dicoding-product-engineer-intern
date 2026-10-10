@@ -1,0 +1,8 @@
+import * as z from "zod"
+
+export const loginSchema = z.object({
+	email: z.email("Masukkan alamat email yang valid."),
+	password: z.string().min(6, "Kata sandi minimal 6 karakter."),
+})
+
+export type LoginInput = z.infer<typeof loginSchema>

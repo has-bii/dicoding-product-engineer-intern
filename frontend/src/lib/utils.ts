@@ -12,6 +12,10 @@ export function isNotFoundError(error: unknown) {
 	return isAxiosError(error) && error.response?.status === 404
 }
 
+export function isUnauthorizedError(error: unknown) {
+	return isAxiosError(error) && error.response?.status === 401
+}
+
 const dateFormatter = new Intl.DateTimeFormat("id-ID", {
 	day: "numeric",
 	month: "long",

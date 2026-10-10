@@ -1,10 +1,6 @@
 import axios from "axios"
-
-let authToken: string | null = null
-
-export function setAuthToken(token: string | null) {
-	authToken = token
-}
+import { tokenStorage } from "@/lib/token-storage"
+import { isUnauthorizedError } from "@/lib/utils"
 
 export const api = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api",
@@ -14,8 +10,15 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-	if (authToken) {
-		config.headers.set("Authorization", `Bearer ${authToken}`)
+	const token = typeof window !== "undefined" ? tokenStorage.get() : null
+	if (token) {
+		config.headers.set("Authorization", `Bearer ${token}`)
 	}
 	return config
+})
+
+api.interceptors.response.use(undefined, (error) => {
+	// The token was revoked or expired, so drop it and let the auth guard ask for a new login
+	if (isUnauthorizedError(error)) tokenStorage.clear()
+	return Promise.reject(error)
 })
