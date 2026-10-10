@@ -1,6 +1,7 @@
-import VacancyCard from "@/features/vacancy/components/vacancy-card"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import VacancyListContent from "@/features/vacancy/components/vacancy-list-content"
 import VacancySearch from "@/features/vacancy/components/vacancy-search"
-import { mockVacancies } from "@/features/vacancy/data/mock-vacancies"
 
 export default function VacancyList() {
 	return (
@@ -11,16 +12,13 @@ export default function VacancyList() {
 						<h2 className="font-semibold text-2xl text-[#18181B] leading-[34px]">
 							Daftar Pekerjaan Terbaru
 						</h2>
-						<VacancySearch />
+						{/* useSearchParams needs a Suspense boundary under cacheComponents */}
+						<Suspense fallback={<Skeleton className="h-11 flex-1 lg:max-w-sm" />}>
+							<VacancySearch />
+						</Suspense>
 					</div>
 
-					<ul className="flex flex-col gap-6">
-						{mockVacancies.map((vacancy) => (
-							<li key={vacancy.id}>
-								<VacancyCard vacancy={vacancy} />
-							</li>
-						))}
-					</ul>
+					<VacancyListContent />
 				</div>
 			</div>
 		</section>
