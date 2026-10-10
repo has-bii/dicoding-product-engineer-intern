@@ -1,0 +1,20 @@
+info:
+  name: Get Detail
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{API_URL}}/vacancy/:vacancy_id"
+  params:
+    - name: vacancy_id
+      value: 01a12754-a2f8-7324-b24f-ec730adb9670
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

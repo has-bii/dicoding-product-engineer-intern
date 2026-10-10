@@ -1,0 +1,32 @@
+info:
+  name: Create
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{API_URL}}/vacancy"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Backend Engineer",
+        "job_type": "full_time",
+        "candidates_needed": 2,
+        "active_until": "2026-12-31",
+        "location": "Bandung",
+        "is_remote": false,
+        "description": "Build and maintain the Dicoding vacancy platform API.",
+        "salary_min": 8000000,
+        "salary_max": 12000000,
+        "show_salary": true,
+        "min_experience": "1_to_3"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

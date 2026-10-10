@@ -1,0 +1,36 @@
+info:
+  name: Update
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{API_URL}}/vacancy/:vacancy_id"
+  params:
+    - name: vacancy_id
+      value: 01a12754-a2f8-7324-b24f-ec730adb9670
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Senior Backend Engineer",
+        "job_type": "full_time",
+        "candidates_needed": 2,
+        "active_until": "2026-12-31",
+        "location": "Bandung",
+        "is_remote": false,
+        "description": "Build and maintain the Dicoding vacancy platform API.",
+        "salary_min": 8000000,
+        "salary_max": 12000000,
+        "show_salary": true,
+        "min_experience": "1_to_3"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

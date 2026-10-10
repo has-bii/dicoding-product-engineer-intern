@@ -1,0 +1,20 @@
+info:
+  name: Delete
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{API_URL}}/vacancy/:vacancy_id"
+  params:
+    - name: vacancy_id
+      value: 01a12754-a2f8-7324-b24f-ec730adb9670
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
