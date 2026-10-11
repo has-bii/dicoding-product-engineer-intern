@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dicoding Jobs Platform Web
 
-## Getting Started
+The web app for the Dicoding Jobs Platform. Visitors browse and search job vacancies. A signed-in admin manages their own vacancies from the dashboard.
 
-First, run the development server:
+It is a Next.js 16 app (App Router) that talks to the Laravel API in [`../backend`](../backend/README.md). The UI is in Indonesian.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech stack
+
+| Concern         | Choice                                               |
+| --------------- | ---------------------------------------------------- |
+| Framework       | Next.js 16, React 19, React Compiler                 |
+| Language        | TypeScript                                           |
+| Styling         | Tailwind CSS 4, shadcn/ui on Base UI                 |
+| Data fetching   | TanStack Query, axios                                |
+| Forms           | TanStack Form, Zod                                   |
+| Rich text       | Tiptap                                               |
+| Lint and format | Biome                                                |
+| E2E testing     | Playwright                                           |
+| Package manager | pnpm                                                 |
+
+## Pages
+
+| Route                          | Description                                                  |
+| ------------------------------ | ------------------------------------------------------------ |
+| `/`                            | Latest vacancies with title search and a "load more" button |
+| `/vacancy/[id]`                | Vacancy detail                                               |
+| `/dashboard`                   | 🔒 The admin's own vacancies, with edit and delete           |
+| `/dashboard/vacancy/create`    | 🔒 Create a vacancy                                          |
+| `/dashboard/vacancy/[id]/edit` | 🔒 Edit a vacancy                                            |
+
+Routes marked 🔒 show a login dialog until you sign in. The bearer token from the API is kept in `localStorage`.
+
+## Project structure
+
+```
+src/
+├── app/
+│   ├── (main)/            Public pages: vacancy list and detail
+│   └── (dashboard)/       Dashboard pages behind the auth guard
+├── components/            Shared layout pieces (header, footer, sidebar, editor)
+│   └── ui/                shadcn/ui components, not linted by Biome
+├── features/
+│   ├── auth/              Login, logout, current user, auth guard
+│   └── vacancy/           API queries and mutations, schemas, list/detail/form components
+├── hooks/
+├── lib/                   axios instance, token storage, helpers
+└── types/
+e2e/                       Playwright tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prerequisites
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js 20.9 or newer
+- pnpm 12 (`corepack enable` picks the version from `package.json`)
+- The backend API running and seeded. See the [backend README](../backend/README.md)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup
 
-## Learn More
+All commands below run from the `frontend/` directory.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The app calls `http://localhost:8000/api` by default. To point it somewhere else, create `.env.local`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
+```
 
-## Deploy on Vercel
+## Running the frontend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open <http://localhost:3000>. To use the dashboard, sign in with the seeded admin:
+
+| Email                | Password      |
+| -------------------- | ------------- |
+| `admin@dicoding.com` | `dicoding123` |
+
+For a production build:
+
+```bash
+pnpm build
+pnpm start
+```
+
+## Lint and format
+
+```bash
+pnpm lint      # check only
+pnpm check     # check and apply safe fixes
+pnpm format    # format only
+```
+
+## Running the tests
+
+The end-to-end tests drive a real browser against the running app and API. They create, edit and delete a vacancy, so run them against the `dev` database, not production data.
+
+1. Make sure MySQL and the backend are running and seeded (`php artisan migrate:fresh --seed` in `backend/` gives a clean start). The public test expects the seeded "Product Engineer" vacancy.
+2. Install the Playwright browser once:
+
+   ```bash
+   pnpm exec playwright install chromium
+   ```
+
+3. Run the tests:
+
+   ```bash
+   pnpm test:e2e
+   ```
+
+Playwright starts `pnpm dev` for you, or reuses a dev server already running on port 3000. A `setup` project signs in once as the admin and saves the session to `e2e/.auth/user.json`, which the other tests reuse.
+
+Useful variants:
+
+```bash
+pnpm test:e2e --ui                       # interactive UI mode
+pnpm test:e2e --headed                   # watch the browser
+pnpm exec playwright show-report         # open the last HTML report
+```
+
+| File                 | Covers                                                                 |
+| -------------------- | ---------------------------------------------------------------------- |
+| `e2e/auth.setup.ts`  | Signs in with the seeded admin and stores the session                  |
+| `e2e/vacancy.spec.ts`| Guest list and detail, login prompt on the dashboard, create/edit/delete flow |

@@ -24,7 +24,8 @@ app/
 │   │   ├── Auth/          AuthController: login, me
 │   │   └── Vacancy/       VacancyController: CRUD + locations
 │   └── Requests/          Form request validation per endpoint
-└── Models/                User, Vacancy (UUID primary keys)
+├── Models/                User, Vacancy (UUID primary keys)
+└── Policies/              VacancyPolicy: only the owner may update or delete
 database/
 ├── factories/             UserFactory, VacancyFactory
 ├── migrations/
