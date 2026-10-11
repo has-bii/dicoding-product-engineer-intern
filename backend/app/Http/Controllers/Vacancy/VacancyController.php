@@ -10,6 +10,7 @@ use App\Models\Vacancy;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class VacancyController extends Controller
@@ -79,9 +80,15 @@ class VacancyController extends Controller
 
     /**
      * Return the full detail of a vacancy.
+     * The salary range is hidden when show_salary is off, unless the viewer owns the vacancy.
      */
-    public function show(Vacancy $vacancy): JsonResponse
+    public function show(Request $request, Vacancy $vacancy): JsonResponse
     {
+        // The route is public, so resolve the optional bearer token explicitly
+        if (! $vacancy->show_salary && $request->user('sanctum')?->id !== $vacancy->user_id) {
+            $vacancy->makeHidden(['salary_min', 'salary_max']);
+        }
+
         return response()->json($vacancy);
     }
 
