@@ -1,8 +1,9 @@
-import { ClockIcon, PencilIcon, Trash2Icon, UploadIcon } from "lucide-react"
+import { ClockIcon, PencilIcon, UploadIcon } from "lucide-react"
 import Link from "next/link"
 import MetaItem from "@/components/meta-item"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import DeleteVacancyDialog from "@/features/vacancy/components/dashboard/delete-vacancy-dialog"
 import { COMPANY_LOGO_URL, COMPANY_NAME } from "@/features/vacancy/constants"
 import type { Vacancy } from "@/features/vacancy/types"
 import { formatDate } from "@/lib/utils"
@@ -51,10 +52,7 @@ export default function MyVacancyCard({ vacancy }: MyVacancyCardProps) {
 						<PencilIcon />
 						Edit
 					</Link>
-					<Button variant="destructive">
-						<Trash2Icon />
-						Hapus
-					</Button>
+					<DeleteVacancyDialog vacancy={vacancy} />
 				</div>
 			</CardContent>
 		</Card>
