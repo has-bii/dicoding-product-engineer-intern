@@ -1,0 +1,13 @@
+.env*
+.git
+.next
+node_modules
+coverage
+test-results
+playwright-report
+blob-report
+e2e
+*.tsbuildinfo
+next-env.d.ts
+Dockerfile
+.dockerignore
