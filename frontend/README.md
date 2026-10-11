@@ -62,10 +62,10 @@ All commands below run from the `frontend/` directory.
 pnpm install
 ```
 
-The app calls `http://localhost:8000/api` by default. To point it somewhere else, create `.env.local`:
+The app calls `http://localhost:8000/api` by default. To point it somewhere else, copy `.env.example` to `.env.local` and edit `NEXT_PUBLIC_API_URL`:
 
 ```bash
-NEXT_PUBLIC_API_URL=http://localhost:8000/api
+cp .env.example .env.local
 ```
 
 ## Running the frontend
@@ -86,6 +86,14 @@ For a production build:
 pnpm build
 pnpm start
 ```
+
+`next.config.ts` sets `output: "standalone"`, so the build also produces a self-contained server in `.next/standalone/`. The `Dockerfile` uses it to build a small production image that runs `node server.js` as a non-root user on port `3000`. Pass the API URL as a build argument, because `NEXT_PUBLIC_*` values are built into the browser bundle:
+
+```bash
+docker build --build-arg NEXT_PUBLIC_API_URL=https://api.example.com/api -t vacancy-frontend .
+```
+
+To run it together with MySQL and the backend, use the compose file at the repository root. See [Running with Docker](../README.md#running-with-docker-production).
 
 ## Lint and format
 

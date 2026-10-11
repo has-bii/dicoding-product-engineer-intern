@@ -8,7 +8,7 @@ It is a Laravel 13 app. Authentication uses Sanctum bearer tokens and data is st
 
 | Concern        | Choice                                           |
 | -------------- | ------------------------------------------------ |
-| Language       | PHP 8.3+                                         |
+| Language       | PHP 8.4+                                         |
 | Framework      | Laravel 13                                       |
 | Authentication | Laravel Sanctum (personal access tokens)         |
 | Database       | MySQL 9 (in Docker), separate `test` database    |
@@ -38,7 +38,7 @@ tests/
 
 ## Prerequisites
 
-- PHP 8.3 or newer, with the `pdo_mysql` extension
+- PHP 8.4 or newer, with the `pdo_mysql` extension
 - [Composer](https://getcomposer.org/)
 - Docker with Docker Compose, for the MySQL database
 
@@ -104,6 +104,14 @@ php artisan serve
 ```
 
 Check that the app is up with `GET http://localhost:8000/up`.
+
+## Running in Docker
+
+`Dockerfile` builds a production image: PHP 8.4 on [FrankenPHP](https://frankenphp.dev/), without dev dependencies, running as a non-root user on port `8000`. All configuration comes from environment variables; `.env` is not copied into the image.
+
+On every start, `docker/entrypoint.sh` caches the config, routes and events, then runs `php artisan migrate --force` and `php artisan db:seed --force`. Set `DB_SEED=false` to skip the seeders. The app has no views, so it does not use `php artisan optimize`, which would fail on the missing `resources/views` directory.
+
+To run it together with MySQL and the frontend, use the compose file at the repository root. See [Running with Docker](../README.md#running-with-docker-production).
 
 ## API overview
 
