@@ -26,6 +26,16 @@ export function formatDate(date: string) {
 	return dateFormatter.format(new Date(date))
 }
 
+const currencyFormatter = new Intl.NumberFormat("id-ID", {
+	style: "currency",
+	currency: "IDR",
+	maximumFractionDigits: 0,
+})
+
+export function formatCurrency(amount: number) {
+	return currencyFormatter.format(amount)
+}
+
 // Laravel answers failed validation with 422 and `errors: { field: string[] }`; keep the first message per field
 export function getValidationErrors(error: unknown): Record<string, string> | undefined {
 	if (!isAxiosError(error) || error.response?.status !== 422) return undefined

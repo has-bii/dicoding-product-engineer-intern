@@ -19,8 +19,9 @@ export type VacancyDetail = Vacancy & {
 	candidates_needed: number
 	is_remote: boolean
 	description: string
-	salary_min: number
-	salary_max: number | null
+	// Omitted by the API when show_salary is off, unless the viewer owns the vacancy
+	salary_min?: number
+	salary_max?: number | null
 	show_salary: boolean
 	updated_at: string
 }

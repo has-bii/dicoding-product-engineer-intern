@@ -66,8 +66,8 @@ export const toVacancyFormValues = (vacancy: VacancyDetail): VacancyFormValues =
 	location: vacancy.location,
 	is_remote: vacancy.is_remote,
 	description: vacancy.description,
-	salary_min: String(vacancy.salary_min),
-	salary_max: vacancy.salary_max === null ? "" : String(vacancy.salary_max),
+	salary_min: String(vacancy.salary_min ?? ""),
+	salary_max: String(vacancy.salary_max ?? ""),
 	show_salary: vacancy.show_salary,
 	min_experience: vacancy.min_experience,
 })

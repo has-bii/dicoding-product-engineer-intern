@@ -1,4 +1,4 @@
-import { Building2Icon, MapPinIcon, UsersIcon } from "lucide-react"
+import { BanknoteIcon, Building2Icon, MapPinIcon, UsersIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
 	COMPANY_LOGO_URL,
@@ -11,6 +11,14 @@ import {
 	jobTypeLabels,
 } from "@/features/vacancy/constants"
 import type { VacancyDetail as VacancyDetailData } from "@/features/vacancy/types"
+import { formatCurrency } from "@/lib/utils"
+
+// A missing salary_max means the range has no upper bound
+function formatSalaryRange(min: number, max: number | null | undefined) {
+	return max == null
+		? `Mulai dari ${formatCurrency(min)}`
+		: `${formatCurrency(min)} - ${formatCurrency(max)}`
+}
 
 type VacancyDetailHeaderProps = {
 	vacancy: VacancyDetailData
@@ -53,6 +61,12 @@ function VacancyDetailHeader({ vacancy }: VacancyDetailHeaderProps) {
 							<UsersIcon className="size-4" />
 							{COMPANY_SIZE}
 						</span>
+						{vacancy.show_salary && vacancy.salary_min !== undefined && (
+							<span className="flex items-center gap-1">
+								<BanknoteIcon className="size-4" />
+								{formatSalaryRange(vacancy.salary_min, vacancy.salary_max)}
+							</span>
+						)}
 					</div>
 				</div>
 			</div>
